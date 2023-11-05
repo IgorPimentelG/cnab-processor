@@ -1,25 +1,37 @@
 package com.cnab.processor.main.config;
 
-import com.cnab.processor.domain.*;
-import org.springframework.batch.core.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.UUID;
+
+import javax.sql.DataSource;
+
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.launch.support.TaskExecutorJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.batch.item.*;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.transform.Range;
-import org.springframework.context.annotation.*;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.sql.DataSource;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.UUID;
+import com.cnab.processor.domain.TransactionInput;
+import com.cnab.processor.domain.TransactionOutput;
 
 @Configuration
 public class BatchConfig {
@@ -32,7 +44,7 @@ public class BatchConfig {
 	}
 
 	@Bean
-	public Job job(Step step) {
+	Job job(Step step) {
 		return new JobBuilder("job", jobRepository)
 		  .start(step)
 		  .incrementer(new RunIdIncrementer())
@@ -40,7 +52,7 @@ public class BatchConfig {
 	}
 
 	@Bean
-	public Step step(
+	Step step(
 	  ItemReader<TransactionInput> reader,
 	  ItemProcessor<TransactionInput, TransactionOutput> processor,
 	  ItemWriter<TransactionOutput> writer
@@ -53,11 +65,12 @@ public class BatchConfig {
 		  .build();
 	}
 
+	@StepScope
 	@Bean
-	public FlatFileItemReader<TransactionInput> reader() {
+	FlatFileItemReader<TransactionInput> reader(@Value("#{jobParameters['cnabFile']}") Resource resource) {
 		return new FlatFileItemReaderBuilder<TransactionInput>()
 		  .name("reader")
-		  .resource(new FileSystemResource("files/CNAB.txt"))
+		  .resource(resource)
 		  .fixedLength()
 		  .columns(
 			new Range(1, 1), new Range(2, 9),
@@ -75,13 +88,13 @@ public class BatchConfig {
 		return item -> {
 			return new TransactionOutput(
 			    UUID.randomUUID().toString(),
-                item.type(),
-                null,
-                item.amount(),
-                item.cpf().toString(),
-                item.cardNumber(),
-                item.storeHolder(),
-                item.storeName())
+						item.type(),
+						null,
+						item.amount(),
+						item.cpf().toString(),
+						item.cardNumber(),
+						item.storeHolder(),
+						item.storeName())
 			  .withAmount(item.amount().divide(BigDecimal.valueOf(100), RoundingMode.CEILING))
 			  .withRegisteredAt(item.data(), item.hour())
 			  .withCPF(String.valueOf(item.cpf()));
@@ -98,5 +111,14 @@ public class BatchConfig {
 		  """)
 		  .beanMapped()
          .build();
+	}
+
+	@Bean
+	JobLauncher jobLauncherAsync(JobRepository jobRepository) throws Exception {
+		var jobLauncher = new TaskExecutorJobLauncher();
+		jobLauncher.setJobRepository(jobRepository);
+		jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
+		jobLauncher.afterPropertiesSet();
+		return jobLauncher;
 	}
 }
