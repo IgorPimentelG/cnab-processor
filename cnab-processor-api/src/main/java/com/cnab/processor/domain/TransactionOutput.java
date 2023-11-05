@@ -4,14 +4,30 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
+@Table("TRANSACTIONS")
 public record TransactionOutput(
+	@Id
   String id,
+
   Integer type,
+
+	@Column("REGISTERED_AT")
   LocalDateTime registeredAt,
+
   BigDecimal amount,
   String cpf,
+
+	@Column("CARD_NUMBER")
   String cardNumber,
+
+	@Column("STORE_HOLDER")
   String storeHolder,
+
+	@Column("STORE_NAME")
   String storeName
 ) {
 	public TransactionOutput withAmount(BigDecimal amount) {
