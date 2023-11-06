@@ -5,13 +5,12 @@
   padding: 8px;
   border-radius: 8px;
   border: 1px solid #46464660;
-  overflow: auto;
 }
 
 .wrapper > div:nth-child(1) {
   display: flex;
   gap: 8px;
-  justify-content: space-between;
+  width: 100%;
   padding: 0 4px;
 }
 
@@ -26,7 +25,14 @@
   text-align: center;
 }
 
+.wrapper > div:nth-child(2) {
+  display: flex;
+  width: 100%;
+  overflow: auto;
+}
+
 .table {
+  width: 100%;
   border-collapse: collapse;
   text-align: center;
 }
@@ -42,4 +48,10 @@
 .table th {
   font-size: 1em;
   font-weight: 300;
+}
+
+@media (max-width: 630px) {
+  .wrapper > div:nth-child(1) {
+    flex-direction: column;
+  }
 }

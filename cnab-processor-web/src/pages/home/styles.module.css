@@ -53,5 +53,24 @@
   .formWrap > div:nth-child(2) {
     align-items: center;
     gap: 12px;
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 500px) {
+  .formWrap > div:nth-child(1) > img {
+    width: 250px;
+  }
+
+  .wrapper {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 630px) {
+  .formWrap > div:nth-child(2) > div {
+    flex-direction: column;
+    width: 100%;
   }
 }
