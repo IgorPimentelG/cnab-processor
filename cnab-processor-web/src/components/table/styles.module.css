@@ -5,6 +5,7 @@
   padding: 8px;
   border-radius: 8px;
   border: 1px solid #46464660;
+  margin: 28px 0;
 }
 
 .wrapper > div:nth-child(1) {
