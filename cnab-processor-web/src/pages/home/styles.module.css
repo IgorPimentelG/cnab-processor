@@ -3,6 +3,7 @@
   flex-direction: column;
   padding: 50px;
   width: 95vw;
+  min-height: 100vh;
 }
 
 .wrapper > div:nth-child(1) {
