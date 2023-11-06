@@ -1,13 +1,13 @@
-import { FC, useState, ChangeEvent } from 'react';
+import { FC, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.css';
 
 type Props = {
   name: string;
+  file: File | undefined,
+  setFile: Dispatch<SetStateAction<File | undefined>>;
 }
 
-export const Input: FC<Props> = ({ name }) => {
-
-  const [file, setFile] = useState<File>();
+export const Input: FC<Props> = ({ name, file, setFile }) => {
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
     const fileList = event.target.files;

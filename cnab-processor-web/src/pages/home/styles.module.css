@@ -1,20 +1,15 @@
 .wrapper {
   display: flex;
-  min-width: 100vw;
-  min-height: 100vh;
   flex-direction: column;
   padding: 50px;
+  width: 95vw;
 }
 
 .wrapper > div:nth-child(1) {
   display: flex;
   justify-content: center;
   margin-bottom: 58px;
-}
-
-.wrapper > div:nth-child(1) > img {
-  object-fit: cover;
-  width: 350px;
+  width: 100%;
 }
 
 .wrapper > div:nth-child(5) {
@@ -28,11 +23,35 @@
 
 .formWrap {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.formWrap > div:nth-child(1) > img {
+  object-fit: cover;
+  width: 350px;
+}
+
+.formWrap > div:nth-child(2) {
+  display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.formWrap > div {
+.formWrap > div:nth-child(2) > div {
   display: flex;
   gap: 8px;
+}
+
+@media (max-width: 860px) {
+  .formWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .formWrap > div:nth-child(2) {
+    align-items: center;
+    gap: 12px;
+  }
 }

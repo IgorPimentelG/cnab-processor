@@ -5,24 +5,38 @@
   padding: 8px;
   border-radius: 8px;
   border: 1px solid #46464660;
+  overflow: auto;
 }
 
 .wrapper > div:nth-child(1) {
   display: flex;
+  gap: 8px;
   justify-content: space-between;
+  padding: 0 4px;
+}
+
+.wrapper > div:nth-child(1) > span {
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  width: 100%;
+  text-align: center;
 }
 
 .table {
   border-collapse: collapse;
+  text-align: center;
 }
 
 .table, th, td {
   border: 1px solid #46464660;
 }
 
-.table th {
+.table th, td {
   padding: 4px 12px;
-  text-align: center;
 }
 
 .table th {
