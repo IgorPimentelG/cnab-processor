@@ -1,0 +1,38 @@
+.wrapper {
+  display: flex;
+  min-width: 100vw;
+  min-height: 100vh;
+  flex-direction: column;
+  padding: 50px;
+}
+
+.wrapper > div:nth-child(1) {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 58px;
+}
+
+.wrapper > div:nth-child(1) > img {
+  object-fit: cover;
+  width: 350px;
+}
+
+.wrapper > div:nth-child(5) {
+  margin-top: 24px;
+}
+
+.wrapper > hr {
+  margin: 24px 0;
+  opacity: 0.1;
+}
+
+.formWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formWrap > div {
+  display: flex;
+  gap: 8px;
+}

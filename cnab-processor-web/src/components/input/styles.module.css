@@ -1,0 +1,22 @@
+.wrapper {
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  width: fit-content;
+  font-size: 1em;
+  font-weight: 500;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.wrapper > input {
+  display: none;
+}
+
+.wrapper > label {
+  cursor: pointer;
+}
+
+.wrapper:hover {
+  border-color: #646cff;
+}
