@@ -24,13 +24,15 @@ const Home = () => {
     event.preventDefault();
 
     if (file) {
+      setIsLoading(true);
       try {
         await uploadCNAB(file);
-        loadTransactions();
+        await handleLoadTransactions();
       } catch (error: unknown) {
         const httpError  = error as AxiosError;
         setError(String(httpError.response?.data) || 'Internal Server Error');
       }
+      setIsLoading(false);
     } else {
       setError("Select CNAB file.");
     }
@@ -41,8 +43,11 @@ const Home = () => {
     const response = await loadTransactions();
 
     if (response.status === 200) {
+      console.log("DEU CERTO!!");
+      console.log(response.data);
       setTransactions(response.data);
     }
+
     setIsLoading(false);
   }
 
@@ -75,11 +80,13 @@ const Home = () => {
       ) : (
         <div>
           {transactions.length === 0 ? (
-            <Error message={'No transactions have been processed.'} />
+            <div className={styles.errorWrap}>
+              <Error message={'No transactions have been processed.'} />
+            </div>
           ) : (
           <>
-            {transactions.map((item) => (
-              <Table report={item} />
+            {transactions.map((item, key) => (
+              <Table report={item} key={key} />
             ))}
           </>
           )}

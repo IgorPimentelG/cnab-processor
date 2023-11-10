@@ -1,4 +1,4 @@
-import { FC, ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, FC, SetStateAction } from 'react';
 import styles from './styles.module.css';
 
 type Props = {
@@ -19,16 +19,14 @@ export const Input: FC<Props> = ({ name, file, setFile }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <label htmlFor={name}>
-        {file ? file.name : 'Choose File'}
-      </label>
+    <label htmlFor={name} className={styles.wrapper}>
+      {file ? file.name : 'Choose File'}
       <input 
         id={name} 
         type='file' 
         accept='.txt' 
         onChange={handleFileChange} 
       />
-    </div>
+    </label>
   );
 }

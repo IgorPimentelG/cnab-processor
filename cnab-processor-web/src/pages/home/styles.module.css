@@ -44,6 +44,10 @@
   gap: 8px;
 }
 
+.errorWrap {
+  margin-top: 14px;
+}
+
 @media (max-width: 860px) {
   .formWrap {
     display: flex;
