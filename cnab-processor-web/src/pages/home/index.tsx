@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import { FormEvent, useEffect, useState } from 'react';
+import { BiRefresh } from 'react-icons/bi';
 import { RiUploadCloudLine } from 'react-icons/ri';
 import Logo from '../../assets/logo.png';
 import { Button, Error, Input, Spinner, Table } from '../../components';
@@ -27,7 +28,6 @@ const Home = () => {
       setIsLoading(true);
       try {
         await uploadCNAB(file);
-        await handleLoadTransactions();
       } catch (error: unknown) {
         const httpError  = error as AxiosError;
         setError(String(httpError.response?.data) || 'Internal Server Error');
@@ -63,8 +63,11 @@ const Home = () => {
 
           <div>
             <Input name='cnab-file' file={file} setFile={setFile} />
-            <Button label='Upload File'>
+            <Button label='Upload File' type='submit'>
               <RiUploadCloudLine />
+            </Button>
+            <Button label='Refresh' type='button' onClick={handleLoadTransactions}>
+              <BiRefresh />
             </Button>
           </div>
 

@@ -1,14 +1,14 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, DetailedHTMLProps, ButtonHTMLAttributes } from 'react';
 import styles from './styles.module.css';
 
-type Props = {
+type Props = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
   label: string;
   children?: ReactNode;
 }
 
-export const Button: FC<Props> = ({ label, children }) => {
+export const Button: FC<Props> = ({ label, children, ...rest }) => {
   return (
-    <button className={styles.wrapper}>
+    <button className={styles.wrapper} {...rest}>
       {children}
       <span>{label}</span>
     </button>

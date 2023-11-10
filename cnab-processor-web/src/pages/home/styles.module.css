@@ -48,7 +48,7 @@
   margin-top: 14px;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 960px) {
   .formWrap {
     display: flex;
     flex-direction: column;
